@@ -46,20 +46,18 @@ class RussianRouletteGame:
 
         if shot == 1:
             self.result_label.config(text="Bang! You lost!")
+            pygame.mixer.music.load('gunshot.mp3')  # Load the gunshot sound
+            pygame.mixer.music.play()  # Play the gunshot sound
             self.label.config(text="Game Over!")
             self.pull_button.config(state="disabled")  # Disable the button
             self.game_over = True
-            pygame.mixer.music.load('gunshot.mp3')  # Load the gunshot sound
-            pygame.mixer.music.play()  # Play the gunshot sound
+
         else:
             self.result_label.config(text="Click! You're safe.")
+            pygame.mixer.music.load('click.mp3')
+            pygame.mixer.music.play()
             self.round_num += 1
             self.round_label.config(text=f"Round {self.round_num}")
-            if not self.chambers:
-                self.result_label.config(text="You've survived all rounds! You're lucky.")
-                self.label.config(text="Game Over!")
-                self.pull_button.config(state="disabled")  # Disable the button
-                self.game_over = True
         if self.game_over:
             self.play_again_button.config(state="normal")  # Enable the play again button
 
