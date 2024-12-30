@@ -1,10 +1,14 @@
 import tkinter as tk
 import random
+import pygame 
 
 class RussianRouletteGame:
     def __init__(self, root):
         self.root = root
         self.root.title("Russian Roulette Game")
+
+        # Initialize pygame mixer
+        pygame.mixer.init()
 
         # Game variables
         self.chambers = [0, 0, 0, 0, 0, 1]  # 1 is the bullet, 0 is empty chamber
@@ -38,8 +42,6 @@ class RussianRouletteGame:
         if self.game_over:
             self.play_again_button.config(state="normal")  # Enable the play again button
 
-        
-        
         shot = self.chambers.pop(0)  # Fire the first chamber
 
         if shot == 1:
@@ -47,11 +49,12 @@ class RussianRouletteGame:
             self.label.config(text="Game Over!")
             self.pull_button.config(state="disabled")  # Disable the button
             self.game_over = True
+            pygame.mixer.music.load('gunshot.mp3')  # Load the gunshot sound
+            pygame.mixer.music.play()  # Play the gunshot sound
         else:
             self.result_label.config(text="Click! You're safe.")
             self.round_num += 1
             self.round_label.config(text=f"Round {self.round_num}")
-
             if not self.chambers:
                 self.result_label.config(text="You've survived all rounds! You're lucky.")
                 self.label.config(text="Game Over!")
