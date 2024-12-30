@@ -29,9 +29,16 @@ class RussianRouletteGame:
         self.quit_button = tk.Button(self.root, text="Quit", font=("Helvetica", 14), command=self.root.quit)
         self.quit_button.pack(pady=10)
 
+        self.play_again_button = tk.Button(self.root, text="Play Again", font=("Helvetica", 14), command=self.reset_game)
+        self.play_again_button.pack(pady=10)
+        self.play_again_button.config(state="disabled")  # Initially disabled
+
+
     def pull_trigger(self):
         if self.game_over:
-            return
+            self.play_again_button.config(state="normal")  # Enable the play again button
+
+        
         
         shot = self.chambers.pop(0)  # Fire the first chamber
 
@@ -50,6 +57,21 @@ class RussianRouletteGame:
                 self.label.config(text="Game Over!")
                 self.pull_button.config(state="disabled")  # Disable the button
                 self.game_over = True
+        if self.game_over:
+            self.play_again_button.config(state="normal")  # Enable the play again button
+
+
+    def reset_game(self):
+            self.chambers = [0, 0, 0, 0, 0, 1]
+            random.shuffle(self.chambers)
+            self.round_num = 1
+            self.game_over = False
+
+            self.label.config(text="Welcome to Russian Roulette!\nPress 'Pull Trigger' to start!")
+            self.round_label.config(text=f"Round {self.round_num}")
+            self.result_label.config(text="")
+            self.pull_button.config(state="normal")
+            self.play_again_button.config(state="disabled")
 
 # Set up the main window
 root = tk.Tk()
